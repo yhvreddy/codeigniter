@@ -111,6 +111,17 @@ class DefaultController extends CI_Controller
 	}
 
 
+	public function crul($url)
+	{
+		$handle = curl_init();
+		curl_setopt($handle, CURLOPT_URL, $url);
+		curl_setopt($handle, CURLOPT_RETURNTRANSFER,true);
+		curl_setopt($handle, CURLOPT_HEADER, false);
+		$data = curl_exec($handle);
+		curl_close($handle);
+		return $data;
+	}
+
 	public function apiresponce($data)
 	{
 		header('Content-type: application/json');

@@ -72,6 +72,47 @@ class ModelDefault extends CI_Model{
         return $return;
     }
 
+    //join 
+    public function jointotable($select,$table,$jointable,$join_on,$join_type,$conduction,$orderby)
+    {
+        $this->db->select($select);
+        $this->db->from($table);
+        //join types : -  left, right, outer, inner, left outer, and right outer.
+        if($join_type == '') { $join_type = 'inner'; }
+        $this->db->join($jointable, $join_on,$join_type);
+        if($conduction != ''){ $this->db->where($conduction); }
+        $this->db->order_by($orderby);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    /*public function jointables($select,$table,$jointables,$join_on,$conduction,$join_type,$orderby)
+    {
+
+        //jointables = array(['table'=>'table_name','join_on'=>'table.id = join_table.id','join_type'=>'inner'],[...])
+        //jointables = 'table_name'
+        $this->db->select($select);
+        $this->db->from($table);
+        //join types : -  left, right, outer, inner, left outer, and right outer.
+        if(is_array($jointables) && count($jointables) != 0){
+            foreach($jointables as $key => $table){
+                if($table['join_type'] == '' || !isset(table['join_type'])) { 
+                    $join_type = '';
+                }else{ 
+                    $join_type = $table['join_type']; 
+                }
+                $this->db->join($table['table'], $table['join_on'],$join_type);    
+            }
+        }else{
+            if($join_type == '') { $join_type = ''; }
+            $this->db->join($jointables, $join_on,$join_type);
+        }
+        if($conduction != ''){ $this->db->where($conduction); }
+        $this->db->order_by($orderby);
+        $query = $this->db->get();
+        return $query->result();
+    }*/
+
     //clean string without any special chars
     public function cleanstring($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
